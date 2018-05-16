@@ -16,8 +16,6 @@ gem 'puma', '~> 3.11'
 
 ### UTILITIES
 
-# Schema Validations: to maintin referential integrity in database and models
-gem 'schema_validations'
 # Environemtn variables
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 # Mailgun
