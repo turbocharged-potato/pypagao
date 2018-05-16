@@ -1,24 +1,22 @@
-# README
+# PYPagao
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A website providing crowdsourced solution for past year papers.
 
-Things you may want to cover:
+Badges go here
 
-* Ruby version
+## Entity-Relationship Diagram
+Under construction
 
-* System dependencies
+### Generate ERD
+To generate the current Entity-Relationship Diagram, install `graphviz` (`sudo apt install graphviz` or `brew install graphviz`), then run `rake generate_erd`. This is also run as a post-migration hook (i.e. after `bin/rails db:migrate`)
 
-* Configuration
+## Installation
+Make sure you have Ruby 2.5.0, Bundler, and PostgreSQL 9.6 installed. Adjust the content of `database.yml` and `.env`
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```bash
+cp config/database.yml.example config/database.yml
+cp .env.default .env
+bundle install
+bin/rails db:setup
+bin/rails server
+```
