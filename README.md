@@ -2,7 +2,7 @@
 
 A website providing crowdsourced solution for past year papers.
 
-[![Build Status](https://travis-ci.org/turbocharged-potato/pypagao.svg?branch=master)](https://travis-ci.org/turbocharged-potato/pypagao) [![Coverage Status](https://coveralls.io/repos/github/turbocharged-potato/pypagao/badge.svg?branch=master)](https://coveralls.io/github/turbocharged-potato/pypagao?branch=master)
+[![Build Status](https://travis-ci.org/turbocharged-potato/pypagao.svg?branch=master)](https://travis-ci.org/turbocharged-potato/pypagao) [![Coverage Status](https://coveralls.io/repos/github/turbocharged-potato/pypagao/badge.svg?branch=master)](https://coveralls.io/github/turbocharged-potato/pypagao?branch=master) [![Maintainability](https://api.codeclimate.com/v1/badges/4964d9836fd4f76498ff/maintainability)](https://codeclimate.com/github/turbocharged-potato/pypagao/maintainability)
 
 ## Entity-Relationship Diagram
 Under construction
