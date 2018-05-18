@@ -7,6 +7,8 @@ services: postgresql
 env:
   - COMMAND="rspec"
   - COMMAND="rubocop -D -f simple"
+  - COMMAND="brakeman"
+  - COMMAND="rake traceroute FAIL_ON_ERROR=1"
 
 matrix:
   fast_finish: true
@@ -17,6 +19,7 @@ matrix:
 before_script:
   - psql -c 'create database pypagao_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
+  - gem install bundler
 
 script:
   - "bundle exec $COMMAND"
