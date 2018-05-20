@@ -16,7 +16,7 @@ gem 'puma', '~> 3.11'
 
 ### UTILITIES
 
-# Environemtn variables
+# Environment variables
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 # Mailgun
 gem 'mailgun-ruby', '~> 1.1.6'
@@ -50,6 +50,8 @@ group :development, :test do
   gem 'traceroute'
   # Optimize and cache expensive computations
   gem 'bootsnap', require: false
+  # Swagger tooling
+  gem 'rswag'
 end
 
 ### END UTILITIES
