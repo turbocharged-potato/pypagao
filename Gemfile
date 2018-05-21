@@ -51,7 +51,9 @@ group :development, :test do
   # Optimize and cache expensive computations
   gem 'bootsnap', require: false
   # Swagger tooling
-  gem 'rswag'
+  gem 'rswag', git: 'https://github.com/domaindrivendev/rswag.git'
+  gem 'sass-rails'
+  gem 'uglifier'
 end
 
 ### END UTILITIES
