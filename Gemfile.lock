@@ -1,22 +1,4 @@
 GIT
-  remote: https://github.com/domaindrivendev/rswag.git
-  revision: d4b6848fa51fc026e3ef1ff65a985da3960ddff8
-  specs:
-    rswag (0.0.0)
-      rswag-api (= 0.0.0)
-      rswag-specs (= 0.0.0)
-      rswag-ui (= 0.0.0)
-    rswag-api (0.0.0)
-      railties (>= 3.1, < 6.0)
-    rswag-specs (0.0.0)
-      activesupport (>= 3.1, < 6.0)
-      json-schema (~> 2.2)
-      railties (>= 3.1, < 6.0)
-    rswag-ui (0.0.0)
-      actionpack (>= 3.1, < 6.0)
-      railties (>= 3.1, < 6.0)
-
-GIT
   remote: https://github.com/thoughtbot/shoulda-matchers.git
   revision: 4b160bd19ecca7f97d7ac22dccd5fde9b0da5a9f
   branch: rails-5
@@ -213,6 +195,19 @@ GEM
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
+    rswag (1.6.0)
+      rswag-api (= 1.6.0)
+      rswag-specs (= 1.6.0)
+      rswag-ui (= 1.6.0)
+    rswag-api (1.6.0)
+      railties (>= 3.1, < 6.0)
+    rswag-specs (1.6.0)
+      activesupport (>= 3.1, < 6.0)
+      json-schema (~> 2.2)
+      railties (>= 3.1, < 6.0)
+    rswag-ui (1.6.0)
+      actionpack (>= 3.1, < 6.0)
+      railties (>= 3.1, < 6.0)
     rubocop (0.56.0)
       parallel (~> 1.10)
       parser (>= 2.5)
@@ -295,7 +290,7 @@ DEPENDENCIES
   rails (~> 5.2.0)
   rails-erd
   rspec-rails
-  rswag!
+  rswag
   rubocop
   sass-rails
   scss_lint
