@@ -52,8 +52,6 @@ group :development, :test do
   gem 'bootsnap', require: false
   # Swagger tooling
   gem 'rswag'
-  gem 'sass-rails'
-  gem 'uglifier'
 end
 
 ### END UTILITIES
