@@ -20,6 +20,7 @@ before_script:
   - psql -c 'create database pypagao_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
   - gem install bundler
+  - bundle exec rails db:setup RAILS_ENV=test
 
 script:
   - "bundle exec $COMMAND"

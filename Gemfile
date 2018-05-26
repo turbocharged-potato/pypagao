@@ -20,6 +20,10 @@ gem 'puma', '~> 3.11'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 # Mailgun
 gem 'mailgun-ruby', '~> 1.1.6'
+# Authentication
+gem 'devise'
+gem 'devise_token_auth'
+gem 'omniauth'
 
 group :test do
   # Test coverage

@@ -26,6 +26,10 @@ Metrics/ClassLength:
   Exclude:
     - 'spec/**/*'
 
+Metrics/LineLength:
+  Exclude:
+    - 'config/**/*'
+
 Rails:
   Enabled: true
 

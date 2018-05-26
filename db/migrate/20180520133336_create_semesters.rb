@@ -4,7 +4,7 @@ class CreateSemesters < ActiveRecord::Migration[5.2]
       t.integer :start_year
       t.integer :end_year
       t.integer :number
-      t.references :course
+      t.references :course, foreign_key: true
 
       t.timestamps
     end
