@@ -5,7 +5,7 @@
 # Table name: votes
 #
 #  id         :bigint(8)        not null, primary key
-#  score      :integer
+#  score      :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  answer_id  :bigint(8)
@@ -27,4 +27,10 @@ require 'rails_helper'
 RSpec.describe Vote, type: :model do
   it { should belong_to :user }
   it { should belong_to :answer }
+  it { should validate_presence_of(:score) }
+  it { should validate_inclusion_of(:score).in_array([-1, 0, 1]) }
+
+  it 'has a valid factory' do
+    expect(build(:vote)).to be_valid
+  end
 end

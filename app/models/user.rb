@@ -5,9 +5,9 @@
 # Table name: users
 #
 #  id              :bigint(8)        not null, primary key
-#  email           :string
-#  name            :string
-#  password_digest :string
+#  email           :string           not null
+#  name            :string           not null
+#  password_digest :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  university_id   :bigint(8)
@@ -18,8 +18,18 @@
 #
 
 class User < ApplicationRecord
+  has_secure_password
   has_many :comments, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :votes, dependent: :destroy
   belongs_to :university
+
+  validates :email, presence: true
+  validates :name, presence: true
+
+  before_save :downcase_email
+
+  def downcase_email
+    self.email = email.downcase
+  end
 end

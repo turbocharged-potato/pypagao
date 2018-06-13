@@ -5,7 +5,7 @@
 # Table name: votes
 #
 #  id         :bigint(8)        not null, primary key
-#  score      :integer
+#  score      :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  answer_id  :bigint(8)
@@ -25,7 +25,7 @@
 FactoryBot.define do
   factory :vote do
     score 1
-    user nil
-    answer nil
+    user
+    answer
   end
 end

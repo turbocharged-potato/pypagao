@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2018_05_21_134538) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.string "content"
+    t.string "content", null: false
     t.bigint "user_id"
     t.bigint "answer_id"
     t.datetime "created_at", null: false
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2018_05_21_134538) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string "code"
+    t.string "code", null: false
     t.bigint "university_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2018_05_21_134538) do
   end
 
   create_table "papers", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.bigint "semester_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 2018_05_21_134538) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.bigint "paper_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -61,9 +61,9 @@ ActiveRecord::Schema.define(version: 2018_05_21_134538) do
   end
 
   create_table "semesters", force: :cascade do |t|
-    t.integer "start_year"
-    t.integer "end_year"
-    t.integer "number"
+    t.integer "start_year", null: false
+    t.integer "end_year", null: false
+    t.integer "number", null: false
     t.bigint "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -71,15 +71,15 @@ ActiveRecord::Schema.define(version: 2018_05_21_134538) do
   end
 
   create_table "universities", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.string "password_digest"
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "password_digest", null: false
     t.bigint "university_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 2018_05_21_134538) do
   end
 
   create_table "votes", force: :cascade do |t|
-    t.integer "score"
+    t.integer "score", null: false
     t.bigint "user_id"
     t.bigint "answer_id"
     t.datetime "created_at", null: false

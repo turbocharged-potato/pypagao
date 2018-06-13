@@ -5,7 +5,7 @@
 # Table name: comments
 #
 #  id         :bigint(8)        not null, primary key
-#  content    :string
+#  content    :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  answer_id  :bigint(8)
@@ -22,4 +22,9 @@ require 'rails_helper'
 RSpec.describe Comment, type: :model do
   it { should belong_to :user }
   it { should belong_to :answer }
+  it { should validate_presence_of(:content) }
+
+  it 'has a valid factory' do
+    expect(build(:comment)).to be_valid
+  end
 end

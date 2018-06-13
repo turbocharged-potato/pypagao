@@ -5,9 +5,9 @@
 # Table name: semesters
 #
 #  id         :bigint(8)        not null, primary key
-#  end_year   :integer
-#  number     :integer
-#  start_year :integer
+#  end_year   :integer          not null
+#  number     :integer          not null
+#  start_year :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  course_id  :bigint(8)
@@ -19,9 +19,9 @@
 
 FactoryBot.define do
   factory :semester do
-    start_year 1
-    end_year 1
+    start_year 2017
+    end_year 2018
     number 1
-    paper ''
+    course
   end
 end

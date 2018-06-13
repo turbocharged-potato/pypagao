@@ -5,7 +5,7 @@
 # Table name: courses
 #
 #  id            :bigint(8)        not null, primary key
-#  code          :string
+#  code          :string           not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  university_id :bigint(8)
@@ -18,6 +18,6 @@
 FactoryBot.define do
   factory :course do
     code 'MyString'
-    semester ''
+    university
   end
 end

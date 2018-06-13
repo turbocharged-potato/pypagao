@@ -21,7 +21,7 @@
 FactoryBot.define do
   factory :answer do
     content 'MyString'
-    imgur 'MyString'
-    comment ''
+    question
+    user
   end
 end

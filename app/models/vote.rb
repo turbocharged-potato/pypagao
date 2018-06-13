@@ -5,7 +5,7 @@
 # Table name: votes
 #
 #  id         :bigint(8)        not null, primary key
-#  score      :integer
+#  score      :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  answer_id  :bigint(8)
@@ -25,4 +25,5 @@
 class Vote < ApplicationRecord
   belongs_to :user
   belongs_to :answer
+  validates :score, presence: true, inclusion: { in: [-1, 0, 1] }
 end
