@@ -89,6 +89,9 @@ gem 'bcrypt', '~> 3.1.12'
 # JWT
 gem 'jwt'
 
+# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
+gem 'rack-cors', require: 'rack/cors'
+
 # Adds various security stuff. You need protection!
 gem 'rack-protection'
 
@@ -112,8 +115,6 @@ end
 # gem 'capistrano-rails', group: :development
 
 
-# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
 ### END SUGGESTION
 
 
