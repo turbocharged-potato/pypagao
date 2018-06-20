@@ -86,6 +86,9 @@ end
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.12'
 
+# JWT
+gem 'jwt'
+
 # Adds various security stuff. You need protection!
 gem 'rack-protection'
 
