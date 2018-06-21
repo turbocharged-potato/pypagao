@@ -38,8 +38,8 @@ class JWTToken
   end
 
   def decode
-    payload, _header = JWT.decode(@token, key, true)
-    @payload = payload
+    payload, _header = JWT.decode(@token, JWTToken.key, true)
+    @payload = HashWithIndifferentAccess.new payload
     true
   rescue JWT::ExpiredSignature
     @error = 'Token expired'
@@ -49,14 +49,13 @@ class JWTToken
     false
   end
 
-  def self.encode(payload, opts)
+  def self.encode(payload, opts = { expiry: 24.hours.from_now })
     payload[:exp] = opts[:expiry].to_i
-    JWT.encode(payload, key, ALGORITHM)
+    JWT.encode(payload, JWTToken.key, ALGORITHM)
   end
 
-  private
-
-  def key
-    ENV['KEY'] || Rails.application.secrets.secret_key_base
+  def self.key
+    ENV['KEY'] || Rails.application.secrets.secret_key_base ||
+      Rails.application.secret_key_base
   end
 end

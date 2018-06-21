@@ -1,35 +1,44 @@
 # frozen_string_literal: true
 
+require 'jwt_token'
+
 class ApplicationController < ActionController::API
   attr_reader :current_user
 
   before_action :authenticate
 
   def authenticate
-    return unless (jwt = jwt_authorization_header)
-    token = JWTToken.new(jwt)
-    render_unauthorized(token.error) && return unless token.decode
-    user = User.find(token.payload[:uid])
-    render_unauthorized('Invalid token') && return unless user
+    token = JWTToken.new(jwt_authorization_header)
+    render_error(token.error, :unauthorized) && return unless token.decode
+    user = User.find_by(id: token.payload[:uid])
+    render_error('Invalid token', :unauthorized) && return unless user
     @current_user = user
   end
 
-  def render_unauthorized(reason)
-    reason ||= ''
-    render json: { error: reason }, status: :unauthorized
+  def render_error(reason, status)
+    render_json({ error: reason || '' }, status)
+  end
+
+  def render_json(body, status)
+    render json: body, status: status
+  end
+
+  def ensure_params_fields(fields)
+    all_present = fields.reduce(true) do |acc, field|
+      params[field].present? && acc
+    end
+    unless all_present
+      render_error('Missing parameter', :unprocessable_entity)
+      return
+    end
+    true
   end
 
   private
 
-  def process_payload(payload)
-    user = User.find(payload[:uid])
-    render_unauthorized(:invalid) && return unless user
-    @current_user = user
-  end
-
   def jwt_authorization_header
     unless valid_authorization_header?
-      render_unauthorized('Missing/Invalid Authorization header')
+      render_error('Missing/Invalid Authorization header', :unauthorized)
       return
     end
     authorization_header.last
@@ -37,10 +46,10 @@ class ApplicationController < ActionController::API
 
   def valid_authorization_header?
     header = authorization_header
-    header.first == 'Bearer' && header.count == 2
+    header && header.first == 'Bearer' && header.count == 2
   end
 
   def authorization_header
-    request.headers['Authorization'].split(' ').presence
+    request&.headers&.dig('Authorization')&.split(' ')&.presence
   end
 end
