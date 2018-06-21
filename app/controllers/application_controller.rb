@@ -5,20 +5,18 @@ class ApplicationController < ActionController::API
 
   before_action :authenticate
 
-  AUTH_ERROR_MESSAGES = { expired: 'Token expired', invalid: 'Invalid token',
-                          missing: 'Missing token' }.freeze
-
   def authenticate
-    token = jwt
-    render_unauthorized(:missing) && return unless token
-    payload, error = Auth.decode(token).values_at(:payload, :error)
-    render_unauthorized(error) && return unless token
-    process_payload(payload)
+    return unless (jwt = jwt_authorization_header)
+    token = JWTToken.new(jwt)
+    render_unauthorized(token.error) && return unless token.decode
+    user = User.find(token.payload[:uid])
+    render_unauthorized('Invalid token') && return unless user
+    @current_user = user
   end
 
   def render_unauthorized(reason)
-    error = AUTH_ERROR_MESSAGES[reason] || reason
-    render json: { error: error }, status: :unauthorized
+    reason ||= ''
+    render json: { error: reason }, status: :unauthorized
   end
 
   private
@@ -29,8 +27,12 @@ class ApplicationController < ActionController::API
     @current_user = user
   end
 
-  def jwt
-    authorization_header.last if valid_authorization_header?
+  def jwt_authorization_header
+    unless valid_authorization_header?
+      render_unauthorized('Missing/Invalid Authorization header')
+      return
+    end
+    authorization_header.last
   end
 
   def valid_authorization_header?
