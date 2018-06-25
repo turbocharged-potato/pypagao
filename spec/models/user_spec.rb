@@ -23,12 +23,14 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  let!(:user) { create(:user) }
   it { should have_many(:comments).dependent(:destroy) }
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:votes).dependent(:destroy) }
   it { should belong_to :university }
   it { should have_secure_password }
   it { should validate_presence_of(:email) }
+  it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
   it { should validate_presence_of(:name) }
 
   it 'should downcase email' do

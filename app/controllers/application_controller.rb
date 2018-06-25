@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'jwt_token'
-
 class ApplicationController < ActionController::API
   attr_reader :current_user
 

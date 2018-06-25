@@ -3,9 +3,9 @@
 class RegistrationMailer < ApplicationMailer
   default from: %("Pypagao" <noreply@#{ENV['MAILGUN_DOMAIN']}>)
 
-  def registration(user, confirmation_link)
+  def registration(user)
     @user = user
-    @confirmation_link = confirmation_link
+    @confirmation_link = "http://new.indocomsoft.com/anu/#{user.token}"
     mail(to: user.email, subject: 'Confirm your registration')
   end
 end

@@ -28,12 +28,12 @@ class User < ApplicationRecord
   has_many :votes, dependent: :destroy
   belongs_to :university
 
-  validates :email, presence: true
+  validates :email, presence: true, uniqueness: true
   validates :name, presence: true
 
   before_save :downcase_email
 
   def downcase_email
-    self.email = email.downcase
+    self.email = email&.downcase
   end
 end

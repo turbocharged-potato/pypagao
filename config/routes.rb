@@ -8,5 +8,6 @@ Rails.application.routes.draw do
 
   post '/authentication/login', to: 'authentication#login'
   post '/authentication/register', to: 'authentication#register'
+  get '/authentication/verify', to: 'authentication#verify'
   get '/authentication/check', to: 'authentication#check'
 end
