@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 2018_06_25_143037) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "token"
+    t.boolean "verified", default: false, null: false
     t.index ["token"], name: "index_users_on_token", unique: true
     t.index ["university_id"], name: "index_users_on_university_id"
   end

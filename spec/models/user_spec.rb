@@ -9,6 +9,7 @@
 #  name            :string           not null
 #  password_digest :string           not null
 #  token           :string
+#  verified        :boolean          default(FALSE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  university_id   :bigint(8)
