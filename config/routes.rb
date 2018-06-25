@@ -7,5 +7,6 @@ Rails.application.routes.draw do
   # http://guides.rubyonrails.org/routing.html
 
   post '/authentication/login', to: 'authentication#login'
+  post '/authentication/register', to: 'authentication#register'
   get '/authentication/check', to: 'authentication#check'
 end
