@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>Hi <%= @user.name %>,</p>
+    <p>Please confirm your registration by going to <%= link_to @confirmation_link, @confirmation_link %>.</p>
+    <p>Pypagao Team</p>
+  </body>
+</html>
