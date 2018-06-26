@@ -11,6 +11,8 @@ gem 'rails', '~> 5.2.0'
 gem 'pg'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
+# Optimize and cache expensive computations
+gem 'bootsnap', require: false
 
 ### END BASICS
 
@@ -48,8 +50,6 @@ group :development, :test do
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
   # Trace routes
   gem 'traceroute'
-  # Optimize and cache expensive computations
-  gem 'bootsnap', require: false
   # Swagger tooling
   gem 'rswag'
 end
