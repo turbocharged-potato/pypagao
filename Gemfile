@@ -21,7 +21,7 @@ gem 'bootsnap', require: false
 # Environment variables
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 # Mailgun
-gem 'mailgun-ruby', '~> 1.1.6'
+gem 'mailgun-ruby', '~> 1.1.10'
 
 group :test do
   # Test coverage
