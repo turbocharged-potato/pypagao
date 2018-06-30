@@ -10,4 +10,6 @@ Rails.application.routes.draw do
   post '/authentication/register', to: 'authentication#register'
   get '/authentication/verify', to: 'authentication#verify'
   get '/authentication/check', to: 'authentication#check'
+
+  resources :universities, except: %i[update destroy]
 end
