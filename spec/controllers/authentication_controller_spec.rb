@@ -13,7 +13,7 @@ RSpec.describe AuthenticationController, type: :controller do
       user = create(:user)
       post :login, params: { email: user.email, password: user.password }
       should respond_with :ok
-      expect(JSON.parse(response.body)).to have_key('token')
+      expect(JSON.parse(response.body)).to have_key('accessToken')
     end
 
     it 'should return 401 for invalid users' do

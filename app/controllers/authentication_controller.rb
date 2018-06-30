@@ -7,7 +7,7 @@ class AuthenticationController < ApplicationController
     return unless ensure_params_fields(%i[email password])
     user = User.find_by(email: login_params[:email].downcase)
     if user&.authenticate(login_params[:password])
-      render_json({ token: JWTToken.encode(uid: user.id) }, :ok)
+      render_json({ accessToken: JWTToken.encode(uid: user.id) }, :ok)
     else
       render_error('Wrong credentials', :unauthorized)
     end
