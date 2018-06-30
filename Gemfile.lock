@@ -251,8 +251,6 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.6)
     tins (1.16.3)
-    traceroute (0.6.2)
-      rails (>= 3.0.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unf (0.1.4)
@@ -293,7 +291,6 @@ DEPENDENCIES
   shoulda-matchers!
   spring
   spring-watcher-listen (~> 2.0.0)
-  traceroute
   tzinfo-data
 
 RUBY VERSION
