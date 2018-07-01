@@ -19,11 +19,5 @@ Course.create(code: 'ABCDE', university_id: 2)
 Semester.create(end_year: 2018, start_year: 2017, number: 1, course_id: 1)
 Paper.create(name: 'Finals', semester_id: 1)
 Question.create(name: 'Essence of Recursion', paper_id: 1)
-Answer.create(content: 'make_fact',
-              imgur: 'www.google.com',
-              question_id: 1,
-              user_id: 1)
-Answer.create(content: 'make_fact(make_fact)',
-              imgur: 'www.google.com',
-              question_id: 1,
-              user_id: 1)
+Answer.create(content: 'make_fact', imgur: 'www.google.com', question_id: 1, user_id: 1)
+Comment.create(content: 'y combinator', answer_id: 1, user_id: 1)
