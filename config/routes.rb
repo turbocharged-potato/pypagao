@@ -20,13 +20,12 @@ Rails.application.routes.draw do
   resources :users, except: %i[update destroy]
 
   resources :universities
-  resources :courses, param: :code
+  resources :courses
   resources :semesters
 
   resources :answers
   resources :questions
-  
-  
+
   resources :papers
   resources :votes
   resources :comments

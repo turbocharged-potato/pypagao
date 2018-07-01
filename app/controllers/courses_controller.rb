@@ -6,21 +6,21 @@ class CoursesController < ApplicationController
   def index
     courses_selected = Course.select(:id, :code, :university_id)
     courses_selected_filtered = courses_selected.where(university_id: 1)
-    
     courses = if params[:code]
-                courses_selected.find_by(code: params[:code])
+                courses_selected_filtered.find_by(code: params[:code])
               else
-                courses_selected.all
+                courses_selected_filtered.all
               end
     render_json(courses, :ok)
   end
 
   def show
     course = Course
-              .select(:id, :code, :university_id)
-              .find_by(code: params[:code])
-    semesters_selected = course.semesters.select(:id, :end_year, :start_year, :number)
-    render_json([course,semesters_selected], :ok)
+             .select(:id, :code, :university_id)
+             .find_by(id: params[:id])
+    semesters_selected = course.semesters
+                               .select(:id, :end_year, :start_year, :number)
+    render_json([course, semesters_selected], :ok)
   end
 
   def create
@@ -32,8 +32,7 @@ class CoursesController < ApplicationController
     end
   end
 
-    def course_params
-      params.require(:course).permit(:code)
-    end
-
+  def course_params
+    params.require(:course).permit(:code)
+  end
 end
