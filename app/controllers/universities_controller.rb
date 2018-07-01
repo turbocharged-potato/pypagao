@@ -7,6 +7,13 @@ class UniversitiesController < ApplicationController
     render_json(University.select(:id, :name, :domain), :ok)
   end
 
+  def show
+    university = University
+                 .select(:id, :name, :domain)
+                 .find_by(id: params[:id])
+    render_json(university, :ok)
+  end
+
   def create
     return unless ensure_params_fields(%i[name domain])
     if University.create(university_params)
@@ -20,5 +27,20 @@ class UniversitiesController < ApplicationController
 
   def university_params
     params.require(:university).permit(:name, :domain)
+  end
+
+  def edit
+    @university = University.find params[:id]
+    render_json(@university.select(:id, :name, :domain), :ok)
+  end
+
+  def update
+    university = University.find params[:id]
+    if university.update(university_params)
+      flash[:success] = 'University details updated'
+      redirect_to @university
+    else
+      render 'edit'
+    end
   end
 end

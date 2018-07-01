@@ -12,4 +12,22 @@ Rails.application.routes.draw do
   get '/authentication/check', to: 'authentication#check'
 
   resources :universities, except: %i[update destroy]
+
+  # For user login
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+  resources :users, except: %i[update destroy]
+
+  resources :universities
+  resources :courses, param: :code
+  resources :semesters
+
+  resources :answers
+  resources :questions
+  
+  
+  resources :papers
+  resources :votes
+  resources :comments
 end
