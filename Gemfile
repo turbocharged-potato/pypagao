@@ -23,7 +23,13 @@ gem 'dotenv-rails', require: 'dotenv/rails-now'
 # Mailgun
 gem 'mailgun-ruby', '~> 1.1.10'
 # Swagger tooling
-gem 'rswag'
+gem 'rswag-api'
+gem 'rswag-ui'
+
+group :test do
+  gem 'rspec-rails'
+  gem 'rswag-specs'
+end
 
 group :test do
   # Test coverage
