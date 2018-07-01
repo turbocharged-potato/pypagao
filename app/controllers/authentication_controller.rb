@@ -7,6 +7,7 @@ class AuthenticationController < ApplicationController
     return unless ensure_params_fields(%i[email password])
     user = User.find_by(email: login_params[:email].downcase)
     if user&.authenticate(login_params[:password])
+      return unless ensure_verified(user)
       render_json({ accessToken: JWTToken.encode(uid: user.id),
                     name: user.name }, :ok)
     else
@@ -45,6 +46,14 @@ class AuthenticationController < ApplicationController
       render_error('Invalid verification token', :bad_request) && return
     end
     render_error('Already verified', :bad_request) && return if user.verified
+    true
+  end
+
+  # Pre-condition: user is not nil
+  def ensure_verified(user)
+    unless user.verified
+      render_error('User is not verified', :bad_request) && return
+    end
     true
   end
 
