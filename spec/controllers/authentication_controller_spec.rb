@@ -59,7 +59,7 @@ RSpec.describe AuthenticationController, type: :controller do
 
   describe 'GET #verify' do
     it 'should verify valid user' do
-      user = create(:user)
+      user = create(:user, verified: false)
       get :verify, params: { token: user.token }
       should respond_with :ok
       expect(response.body).to eq('')
@@ -87,7 +87,7 @@ RSpec.describe AuthenticationController, type: :controller do
     end
 
     it 'sends 500 when error saving' do
-      user = create(:user)
+      user = create(:user, verified: false)
       allow(User).to receive(:find_by).with(token: user.token).and_return(user)
       allow(user).to receive(:update).and_return(false)
       get :verify, params: { token: user.token }

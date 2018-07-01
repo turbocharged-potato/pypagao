@@ -26,5 +26,6 @@ FactoryBot.define do
     sequence(:email) { |n| "anu#{n}@example.com" }
     password '123456'
     university
+    verified true
   end
 end
