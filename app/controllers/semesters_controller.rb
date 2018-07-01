@@ -3,9 +3,10 @@
 class SemestersController < ApplicationController
   skip_before_action :authenticate
 
+  # /semesters?course_id=1 - lists all semester objects by course
   def index
     return unless ensure_params_fields([:course_id])
-    semesters_selected = Semester.select(:start_year, :end_year, :number, :id)
+    semesters_selected = Semester.select(:id, :start_year, :end_year, :number, :course_id)
     semesters = semesters_selected.where(course_id: params[:course_id])
     render_json(semesters, :ok)
   end
@@ -28,6 +29,6 @@ class SemestersController < ApplicationController
   end
 
   def semester_params
-    params.require(:course).permit(:start_year, :end_year, :number)
+    params.require(:semester).permit(:start_year, :end_year, :number)
   end
 end

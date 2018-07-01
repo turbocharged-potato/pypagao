@@ -3,9 +3,10 @@
 class PapersController < ApplicationController
   skip_before_action :authenticate
 
+  # /papers?semester_id=1 - lists all paper objects by semester
   def index
     return unless ensure_params_fields([:semester_id])
-    papers_selected = Paper.select(:id, :name)
+    papers_selected = Paper.select(:id, :name, :semester_id)
     papers = papers_selected.where(semester_id: params[:semester_id])
     render_json(papers, :ok)
   end

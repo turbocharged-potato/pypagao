@@ -3,12 +3,12 @@
 class QuestionsController < ApplicationController
   skip_before_action :authenticate
 
-  # /questions?paper_id=1 - lists all question objects by paper
+  # /comments?answers_id=1 - lists all comment objects by answer
   def index
-    return unless ensure_params_fields([:paper_id])
-    questions_selected = Question.select(:id, :name, :paper_id)
-    questions = questions_selected.where(paper_id: params[:paper_id])
-    render_json(questions, :ok)
+    return unless ensure_params_fields([:answer_id])
+    comments_selected = Comment.select(:id, :content, :user_id, :answer_id)
+    comments = comments_selected.where(answer_id: params[:answer_id])
+    render_json(comments, :ok)
   end
 
   def show

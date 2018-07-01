@@ -3,42 +3,35 @@
 class AnswersContoller < ApplicationController
   skip_before_action :authenticate
 
+  # /answers?question_id=1&limit=2 - limits answer objects by question
+  # /answers?user_id=1 - lists all answer objects by user
+
   def index
-    @answers = Answer.search params[:search]
-    render_json(Answers.select(:content, :imgur, :question_id, :user_id), :ok)
+    return unless ensure_params_fields([:semester_id])
+    papers_selected = Paper.select(:id, :name)
+    papers = papers_selected.where(semester_id: params[:semester_id])
+    render_json(papers, :ok)
   end
 
+  # /answers/1 - lists number of votes for an answer with answer_id
+  
   def show
-    @answers = Answer.find(params[:id])
-    @comments = Answer.comments
-    @votes = Answer.votes
-    render_json(@answers.select(:content, :imgur, :question_id, :user_id), :ok)
   end
 
   def new
     @task = current_user.answers.new
   end
 
-  # def create
-  #   answer = current_user.tasks.new answer_params
-  #   answer.assign_question(params[:question_id]), current_user)
-  #   if answer.save
-  #     redirect_to questions_path
-  #   else
-  #     @answer = answer
-  #     flash.now[:danger] = "Unable to create answer"
-  #     render new_answer_path, status: :bad_request
-  # end
+  def create
+    return unless ensure_params_fields(:content)
+    if Paper.create(paper_params)
+      render_json('', :ok)
+    else
+      render_error('Error saving', :internal_server_error)
+    end
+  end
 
-  # def edit
-  #    @answer = current_user.tasks.find params[:id]
-  # end
-
-  # def update
-
-  # end
-
-  #   def task_params
-  #     params.require(:answer).permit(:content, :imgur, :question_id, :user_id)
-  #   end
+  def paper_params
+    params.require(:paper).permit(:content, :imgur)
+  end
 end

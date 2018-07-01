@@ -3,14 +3,14 @@
 class CoursesController < ApplicationController
   skip_before_action :authenticate
 
+  # /courses?code=CS1101S - gives one course object from the uni of the user
   def index
+    return unless ensure_params_fields([:code])
     courses_selected = Course.select(:id, :code, :university_id)
-    courses_selected_filtered = courses_selected.where(university_id: 1)
-    courses = if params[:code]
-                courses_selected_filtered.find_by(code: params[:code])
-              else
-                courses_selected_filtered.all
-              end
+    courses_selected_from_uni = courses_selected.where(university_id: 1)
+    # change 1 to current_user.university_id
+
+    courses = courses_selected_from_uni.where(code: params[:code])
     render_json(courses, :ok)
   end
 
