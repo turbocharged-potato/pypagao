@@ -22,6 +22,8 @@ gem 'bootsnap', require: false
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 # Mailgun
 gem 'mailgun-ruby', '~> 1.1.10'
+# Swagger tooling
+gem 'rswag'
 
 group :test do
   # Test coverage
@@ -48,8 +50,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   # Shoulda Matchers: matchers for testing -- experimental gem for Rails 5
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
-  # Swagger tooling
-  gem 'rswag'
 end
 
 ### END UTILITIES
