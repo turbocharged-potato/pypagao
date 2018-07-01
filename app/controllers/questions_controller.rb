@@ -4,7 +4,10 @@ class QuestionsController < ApplicationController
   skip_before_action :authenticate
 
   def index
-    render_json(Question.select(:name), :ok)
+    return unless ensure_params_fields([:paper_id])
+    questions_selected = Question.select(:id, :name)
+    questions = questions_selected.where(paper_id: params[:paper_id])
+    render_json(questions, :ok)
   end
 
   def show

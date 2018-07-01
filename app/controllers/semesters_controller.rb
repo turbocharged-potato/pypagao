@@ -6,7 +6,7 @@ class SemestersController < ApplicationController
   def index
     return unless ensure_params_fields([:course_id])
     semesters_selected = Semester.select(:start_year, :end_year, :number, :id)
-    semesters = semesters_selected.find_by(course_id: params[:course_id])
+    semesters = semesters_selected.where(course_id: params[:course_id])
     render_json(semesters, :ok)
   end
 
