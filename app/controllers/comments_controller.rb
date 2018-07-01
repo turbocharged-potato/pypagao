@@ -11,23 +11,16 @@ class QuestionsController < ApplicationController
     render_json(comments, :ok)
   end
 
-  def show
-    question = Question
-               .select(:name)
-               .find_by(id: params[:id])
-    render_json(question, :ok)
-  end
-
   def create
-    return unless ensure_params_fields(:name)
-    if Question.create(question_params)
+    return unless ensure_params_fields(:content)
+    if Comments.create(comment_params)
       render_json('', :ok)
     else
       render_error('Error saving', :internal_server_error)
     end
   end
 
-  def question_params
-    params.require(:question).permit(:name)
+  def comment_params
+    params.require(:comments).permit(:content)
   end
 end

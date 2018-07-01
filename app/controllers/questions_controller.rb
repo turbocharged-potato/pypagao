@@ -11,13 +11,6 @@ class QuestionsController < ApplicationController
     render_json(questions, :ok)
   end
 
-  def show
-    question = Question
-               .select(:name)
-               .find_by(id: params[:id])
-    render_json(question, :ok)
-  end
-
   def create
     return unless ensure_params_fields(:name)
     if Question.create(question_params)

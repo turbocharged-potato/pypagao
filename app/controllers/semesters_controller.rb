@@ -11,14 +11,6 @@ class SemestersController < ApplicationController
     render_json(semesters, :ok)
   end
 
-  def show
-    semester = Semester
-               .select(:start_year, :end_year, :number, :id)
-               .find_by(id: params[:id])
-    papers_selected = semester.papers.select(:id, :name)
-    render_json([semester, papers_selected], :ok)
-  end
-
   def create
     return unless ensure_params_fields(:end_year, :start_year, :number)
     if Semester.create(semester_params)

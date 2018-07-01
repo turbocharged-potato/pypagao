@@ -11,15 +11,6 @@ class PapersController < ApplicationController
     render_json(papers, :ok)
   end
 
-  def show
-    paper = Paper
-            .select(:name)
-            .find_by(id: params[:id])
-    questions = paper.questions
-    questions_selected = questions.select(:id, :name)
-    render_json([papers, questions_selected], :ok)
-  end
-
   def create
     return unless ensure_params_fields(:name)
     if Paper.create(paper_params)

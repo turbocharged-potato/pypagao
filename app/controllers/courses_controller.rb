@@ -10,17 +10,8 @@ class CoursesController < ApplicationController
     courses_selected_from_uni = courses_selected.where(university_id: 1)
     # change 1 to current_user.university_id
 
-    courses = courses_selected_from_uni.where(code: params[:code])
+    courses = courses_selected_from_uni.find_by(code: params[:code])
     render_json(courses, :ok)
-  end
-
-  def show
-    course = Course
-             .select(:id, :code, :university_id)
-             .find_by(id: params[:id])
-    semesters_selected = course.semesters
-                               .select(:id, :end_year, :start_year, :number)
-    render_json([course, semesters_selected], :ok)
   end
 
   def create
