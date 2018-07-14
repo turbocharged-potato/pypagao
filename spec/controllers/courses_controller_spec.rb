@@ -61,7 +61,8 @@ RSpec.describe CoursesController, type: :controller do
       course = build(:course)
       post :create, params: { code: course.code, university: university }
       should respond_with :bad_request
-      expect(response.body).to eq({ error: 'University does not match current user' }.to_json)
+      expect(response.body)
+        .to eq({ error: 'University does not match current user' }.to_json)
     end
 
     it 'sends 400 when error saving' do
