@@ -1,26 +1,45 @@
 # frozen_string_literal: true
 
 class PapersController < ApplicationController
-  skip_before_action :authenticate
-
   # /papers?semester_id=1 - lists all paper objects by semester
   def index
     return unless ensure_params_fields([:semester_id])
-    papers_selected = Paper.select(:id, :name, :semester_id)
-    papers = papers_selected.where(semester_id: params[:semester_id])
+    papers = Paper.joins(semester: { course: :university })
+                  .where(semesters: { courses:
+                                    { universities:
+                                    { id: current_user.university_id } } })
+                  .select(:id, :semester_id, :name)
+                  .where(semester_id: params[:semester_id])
     render_json(papers, :ok)
   end
 
   def create
     return unless ensure_params_fields([:name])
-    if Paper.create(paper_params)
-      render_json('', :ok)
+    paper = Paper.new paper_params
+    if paper_match_uni(paper)
+      try_save_paper(paper)
     else
-      render_error('Error saving', :internal_server_error)
+      render_error('University does not match current user', :bad_request)
     end
   end
 
+  private
+
   def paper_params
-    params.require(:paper).permit(:name)
+    params.require(:paper).permit(:name, :semester_id)
+  end
+
+  def paper_match_uni(paper)
+    semester = Semester.find_by(id: paper[:semester_id])
+    course = Course.find_by(id: semester[:course_id])
+    course.university_id == current_user.university_id
+  end
+
+  def try_save_paper(paper)
+    if paper.save
+      render_json('', :ok)
+    else
+      render_error(semester.errors.full_messages.join(', '), :bad_request)
+    end
   end
 end
