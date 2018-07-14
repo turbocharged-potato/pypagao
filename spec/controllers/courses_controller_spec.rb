@@ -66,7 +66,7 @@ RSpec.describe CoursesController, type: :controller do
 
     it 'sends 400 when error saving' do
       course = build(:course)
-      Course.any_instance.stub(:save).and_return(false)
+      allow_any_instance_of(Course).to receive(:save).and_return(false)
       post :create, params: { code: course.code }
       should respond_with :bad_request
     end
