@@ -18,11 +18,13 @@ smrt = University.create(name: 'SMRT', domain: 'smrt.sg')
 tiffany = User.create(name: 'Tiffany',
                       password: '123456',
                       email: 'sciffany@gmail.com',
-                      university: nus)
+                      university: nus,
+                      verified: true)
 julius = User.create(name: 'Julius',
                      password: '123456',
                      email: 'test@test.com',
-                     university: nus)
+                     university: nus,
+                     verified: true)
 User.create(name: 'Jeffrey',
             password: 'han hock',
             email: 'jeffrey@smrt.sg',
