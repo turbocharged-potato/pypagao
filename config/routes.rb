@@ -19,14 +19,14 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   resources :users, except: %i[update destroy]
 
-  resources :universities
-  resources :courses
-  resources :semesters
+  resources :universities, only: %i[create index]
+  resources :courses, only: %i[create index]
+  resources :semesters, only: %i[create index]
 
-  resources :answers
-  resources :questions
+  resources :answers, only: %i[create index]
+  resources :questions, only: %i[create index]
 
-  resources :papers
-  resources :votes
-  resources :comments
+  resources :papers, only: %i[create index]
+  resources :votes, only: %i[create index]
+  resources :comments, only: %i[create index]
 end
