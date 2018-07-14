@@ -57,28 +57,17 @@ RSpec.describe CoursesController, type: :controller do
 
     it 'should save given valid information' do
       course = build(:course)
-      post :create, params: { code: course.code,
-                              university_id: @user_university.id }
+      post :create, params: { code: course.code }
       course_id = Course.find_by(code: course.code).id
       should respond_with :ok
       expect(JSON.parse(response.body))
         .to eql({ id: course_id, code: course.code }.with_indifferent_access)
     end
 
-    it 'should not save information given the wrong course' do
-      university = create(:university)
-      course = build(:course)
-      post :create, params: { code: course.code, university: university }
-      should respond_with :bad_request
-      expect(response.body)
-        .to eq({ error: 'University does not match current user' }.to_json)
-    end
-
     it 'sends 400 when error saving' do
       course = build(:course)
-      allow(Course).to receive(:create).and_return(false)
-      post :create, params: { code: course.code,
-                              university: @user_university }
+      Course.any_instance.stub(:save).and_return(false)
+      post :create, params: { code: course.code }
       should respond_with :bad_request
     end
   end

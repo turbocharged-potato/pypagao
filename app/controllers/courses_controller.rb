@@ -18,8 +18,9 @@ class CoursesController < ApplicationController
   end
 
   def create
-    return unless ensure_params_fields([:code]) && check_university_id
+    return unless ensure_params_fields([:code])
     course = Course.new course_params
+    course.university_id = current_user.university_id
     if course.save
       render_json(course.slice(:id, :code), :ok)
     else
@@ -29,15 +30,7 @@ class CoursesController < ApplicationController
 
   private
 
-  def check_university_id
-    if course_params[:university_id] != current_user.university_id
-      render_error('University does not match current user', :bad_request)
-      return
-    end
-    true
-  end
-
   def course_params
-    params.require(:course).permit(:university_id, :code)
+    params.require(:course).permit(:code)
   end
 end
