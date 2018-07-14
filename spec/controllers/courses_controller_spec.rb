@@ -21,6 +21,17 @@ RSpec.describe CoursesController, type: :controller do
           university_id: course.university_id
         }.with_indifferent_access])
     end
+
+    it 'should search for course code' do
+      code = 'CS1101S'
+      course = create(:course, code: code, university: @user_university)
+      get :index, params: { university_id: @user_university.id, code: code }
+      expect(JSON.parse(response.body))
+        .to eql({ id: course.id,
+                  code: course.code,
+                  university_id: course.university_id }.with_indifferent_access)
+    end
+
     it 'should not list courses from different university' do
       non_user_university = create(:university)
       get :index, params: { university_id: non_user_university.id }
