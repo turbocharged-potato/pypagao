@@ -59,8 +59,10 @@ RSpec.describe CoursesController, type: :controller do
       course = build(:course)
       post :create, params: { code: course.code,
                               university_id: @user_university.id }
+      course_id = Course.find_by(code: course.code).id
       should respond_with :ok
-      expect(response.body).to eq('')
+      expect(JSON.parse(response.body))
+        .to eql({ id: course_id, code: course.code }.with_indifferent_access)
     end
 
     it 'should not save information given the wrong course' do
