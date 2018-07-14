@@ -11,19 +11,34 @@
 #     { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-University.create(name: 'National University of Singapore', domain: 'u.nus.edu')
-User.create(name: 'Tiffany',
-            password: '123456',
-            email: 'sciffany@gmail.com',
-            university_id: 1)
-Course.create(code: 'CS1101S', university_id: 1)
-Course.create(code: 'MA1101R', university_id: 1)
-Course.create(code: 'ABCDE', university_id: 2)
-Semester.create(end_year: 2018, start_year: 2017, number: 1, course_id: 1)
-Paper.create(name: 'Finals', semester_id: 1)
-Question.create(name: 'Essence of Recursion', paper_id: 1)
-Answer.create(content: 'make_fact',
-              imgur: 'www.google.com',
-              question_id: 1,
-              user_id: 1)
-Comment.create(content: 'y combinator', answer_id: 1, user_id: 1)
+nus = University.create(name: 'National University of Singapore',
+                        domain: 'u.nus.edu')
+smrt = University.create(name: 'SMRT', domain: 'smrt.sg')
+
+tiffany = User.create(name: 'Tiffany',
+                      password: '123456',
+                      email: 'sciffany@gmail.com',
+                      university: nus)
+julius = User.create(name: 'Julius',
+                     password: '123456',
+                     email: 'test@test.com',
+                     university: nus)
+User.create(name: 'Jeffrey',
+            password: 'han hock',
+            email: 'jeffrey@smrt.sg',
+            university: smrt)
+
+cs1101s = Course.create(code: 'CS1101S', university: nus)
+Course.create(code: 'MA1101R', university: nus)
+Course.create(code: 'ABCDE', university: smrt)
+semester = Semester.create(start_year: 2017,
+                           end_year: 2018,
+                           number: 1,
+                           course: cs1101s)
+paper = Paper.create(name: 'Finals', semester: semester)
+question = Question.create(name: 'Essence of Recursion', paper: paper)
+answer = Answer.create(content: 'make_fact',
+                       imgur: 'www.google.com',
+                       question: question,
+                       user: tiffany)
+Comment.create(content: 'y combinator', answer: answer, user: julius)
