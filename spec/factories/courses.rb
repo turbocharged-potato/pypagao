@@ -17,7 +17,7 @@
 
 FactoryBot.define do
   factory :course do
-    code 'MyString'
+    sequence(:code) { |n| "CS110#{n}" }
     university
   end
 end

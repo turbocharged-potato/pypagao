@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  skip_before_action :authenticate
-
   # /answers?user_id=1 - lists all answer objects by user or question
   # /answers?question_id=1&limit=2 - limits answer objects by votes
   def index
