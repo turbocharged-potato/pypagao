@@ -6,8 +6,9 @@ class SemestersController < ApplicationController
   # /semesters?course_id=1 - lists all semester objects by course
   def index
     return unless ensure_params_fields([:course_id])
-    semesters_selected = Semester.select(:id, :start_year, :end_year, :number, :course_id)
-    semesters = semesters_selected.where(course_id: params[:course_id])
+    semesters = Semester
+                .select(:id, :start_year, :end_year, :number, :course_id)
+                .where(course_id: params[:course_id])
     render_json(semesters, :ok)
   end
 

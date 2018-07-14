@@ -3,11 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe AuthenticationController, type: :controller do
-  before do
-    @request.env['HTTP_ACCEPT'] = 'application/json'
-    @request.env['CONTENT_TYPE'] = 'application/json'
-  end
-
   describe 'POST #login' do
     it 'should gives token to valid users' do
       user = create(:user)

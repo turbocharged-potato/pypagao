@@ -6,7 +6,8 @@ class ApplicationController < ActionController::API
   before_action :authenticate
 
   def authenticate
-    token = JWTToken.new(jwt_authorization_header)
+    return unless (jwt_header = jwt_authorization_header)
+    token = JWTToken.new(jwt_header)
     render_error(token.error, :unauthorized) && return unless token.decode
     user = User.find_by(id: token.payload[:uid])
     render_error('Invalid token', :unauthorized) && return unless user
@@ -48,6 +49,6 @@ class ApplicationController < ActionController::API
   end
 
   def authorization_header
-    request&.headers&.dig('Authorization')&.split(' ')&.presence
+    request&.headers&.[]('Authorization')&.split(' ')&.presence
   end
 end

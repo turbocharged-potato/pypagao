@@ -3,11 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe UniversitiesController, type: :controller do
-  before do
-    @request.env['HTTP_ACCEPT'] = 'application/json'
-    @request.env['CONTENT_TYPE'] = 'application/json'
-  end
-
   describe 'GET #index' do
     it 'should return all universities' do
       universities = create_list(:university, 3)
