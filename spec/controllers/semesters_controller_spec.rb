@@ -3,12 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe SemestersController, type: :controller do
+  before do
+    @user_university = create(:university)
+    @user = create(:user, university: @user_university)
+    code = 'CS1101S'
+    @course = create(:course, code: code, university: @user_university)
+  end
+
   describe 'GET #index' do
     before do
-      @user_university = create(:university)
-      @user = create(:user, university: @user_university)
-      @code = 'CS1101S'
-      @course = create(:course, code: @code, university: @user_university)
       sign_in(@user)
     end
 
@@ -45,10 +48,6 @@ RSpec.describe SemestersController, type: :controller do
 
   describe 'POST #create' do
     before do
-      @user_university = create(:university)
-      @user = create(:user, university: @user_university)
-      @code = 'CS1101S'
-      @course = create(:course, code: @code, university: @user_university)
       sign_in(@user)
     end
 
@@ -71,7 +70,7 @@ RSpec.describe SemestersController, type: :controller do
 
     it 'sends 400 when error saving' do
       semester = build(:semester)
-      allow(Course).to receive(:create).and_return(false)
+      allow(Semester).to receive(:create).and_return(false)
       post :create, params: semester_hash(semester)
       should respond_with :bad_request
     end
