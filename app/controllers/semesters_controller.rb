@@ -12,16 +12,15 @@ class SemestersController < ApplicationController
                 .where(course_id: params[:course_id])
     render_json(semesters, :ok)
   end
+
   def create
     return unless ensure_params_fields(%i[end_year start_year number])
     semester = Semester.new semester_params
     if Course.find_by(id: semester[:course_id])
              .university_id != current_user.university_id
       render_error('University does not match current user', :bad_request)
-    elsif semester.save
-      render_json('', :ok)
     else
-      render_error(semester.errors.full_messages.join(', '), :bad_request)
+      try_save_semester(semester)
     end
   end
 
@@ -30,5 +29,15 @@ class SemestersController < ApplicationController
                                      :end_year,
                                      :number,
                                      :course_id)
+  end
+
+  private
+
+  def try_save_semester(semester)
+    if semester.save
+      render_json('', :ok)
+    else
+      render_error(semester.errors.full_messages.join(', '), :bad_request)
+    end
   end
 end
