@@ -31,4 +31,16 @@ RSpec.describe UniversitiesController, type: :controller do
       expect(response.body).to eq({ error: 'Error saving' }.to_json)
     end
   end
+
+  describe 'GET #show' do
+    it 'should return the correct university info' do
+      universities = create_list(:university, 3)
+      universities.map do |u|
+        expected = { 'id' => u.id, 'name' => u.name, 'domain' => u.domain }
+        get :show, params: { id: u.id }
+        should respond_with :ok
+        expect(JSON.parse(response.body)).to eql(expected)
+      end
+    end
+  end
 end
