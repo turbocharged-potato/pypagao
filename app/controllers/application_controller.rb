@@ -48,6 +48,12 @@ class ApplicationController < ActionController::API
   end
 
   def authorization_header
-    request&.headers&.[]('Authorization')&.split(' ')&.presence
+    # npm fetch decided to be a female dog and forcefully casts
+    # header keys to lowercase just cause HTTP spec says
+    # HTTP header field names are case insensitive
+
+    # TODO: probably refactor this?
+    request&.headers&.[]('authorization')&.split(' ')&.presence ||
+      request&.headers&.[]('Authorization')&.split(' ')&.presence
   end
 end
