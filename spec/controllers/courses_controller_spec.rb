@@ -12,7 +12,7 @@ RSpec.describe CoursesController, type: :controller do
 
     it 'should lists courses from a certain university' do
       course = create(:course, university: @user_university)
-      get :index, params: { university_id: @user_university.id }
+      get :index
       should respond_with :ok
       expect(JSON.parse(response.body))
         .to eql([{
@@ -25,23 +25,19 @@ RSpec.describe CoursesController, type: :controller do
     it 'should search for course code' do
       code = 'CS1101S'
       course = create(:course, code: code, university: @user_university)
-      get :index, params: { university_id: @user_university.id, code: code }
+      get :index, params: { code: code }
       expect(JSON.parse(response.body))
         .to eql({ id: course.id,
                   code: course.code,
                   university_id: course.university_id }.with_indifferent_access)
     end
 
-    it 'should not list courses from different university' do
-      non_user_university = create(:university)
-      get :index, params: { university_id: non_user_university.id }
-      should respond_with :ok
-      expect(JSON.parse(response.body)).to eql([])
-    end
-    it 'should return missing parameters if no university_id' do
-      get :index
-      should respond_with :unprocessable_entity
-    end
+    # it 'should not list courses from different university' do
+    #   non_user_university = create(:university)
+    #   get :index, params: { university_id: non_user_university.id }
+    #   should respond_with :ok
+    #   expect(JSON.parse(response.body)).to eql([])
+    # end
   end
 
   describe 'GET #index if signed out' do

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class CoursesController < ApplicationController
-  # /courses?university_id=1 - lists all course objects by university
-  # /courses?university_id=1&code=CS1101S
+  # /courses - lists all course objects by university
+  # /courses?code=CS1101S
   def index
-    return unless ensure_params_fields([:university_id])
-    courses_by_university = Course.select(:id, :university_id, :code)
-                                  .where(university_id: params[:university_id])
+    courses_by_university = Course
+                            .select(:id, :university_id, :code)
+                            .where(university_id: current_user.university_id)
 
     courses = if params[:code]
                 courses_by_university.find_by(code: params[:code])
