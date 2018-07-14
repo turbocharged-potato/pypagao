@@ -12,7 +12,10 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 University.create(name: 'National University of Singapore', domain: 'u.nus.edu')
-User.create(name: 'Tiffany', email: 'sciffany@gmail.com', university_id: 1)
+User.create(name: 'Tiffany',
+            password: '123456',
+            email: 'sciffany@gmail.com',
+            university_id: 1)
 Course.create(code: 'CS1101S', university_id: 1)
 Course.create(code: 'MA1101R', university_id: 1)
 Course.create(code: 'ABCDE', university_id: 2)
