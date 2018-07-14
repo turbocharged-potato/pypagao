@@ -32,12 +32,12 @@ RSpec.describe CoursesController, type: :controller do
                   university_id: course.university_id }.with_indifferent_access)
     end
 
-    # it 'should not list courses from different university' do
-    #   non_user_university = create(:university)
-    #   get :index, params: { university_id: non_user_university.id }
-    #   should respond_with :ok
-    #   expect(JSON.parse(response.body)).to eql([])
-    # end
+    it 'should not list courses from different university' do
+      non_user_university = create(:university)
+      get :index, params: { university_id: non_user_university.id }
+      should respond_with :ok
+      expect(JSON.parse(response.body)).to eql([])
+    end
   end
 
   describe 'GET #index if signed out' do

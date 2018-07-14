@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class CoursesController < ApplicationController
-  # /courses - lists all course objects by university
-  # /courses?code=CS1101S
+  # /courses - lists all course objects
+  # /courses?code=CS1101S - lists all course objects by search
   def index
     courses_by_university = Course
                             .select(:id, :university_id, :code)
@@ -28,6 +28,8 @@ class CoursesController < ApplicationController
       render_error(course.errors.full_messages.join(', '), :bad_request)
     end
   end
+
+  private
 
   def course_params
     params.require(:course).permit(:university_id, :code)
