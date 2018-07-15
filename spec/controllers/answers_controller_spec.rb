@@ -59,13 +59,23 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  # describe 'GET #show' do
-
-  #   it 'should show you number of votes' do
-  #     get :show
-  #     should respond_with 3
-  #   end
-  # end
+  describe 'GET #show' do
+    before do
+      sign_in(@user)
+    end
+    it 'should show you number of votes' do
+      answer = create(:answer, question: @question)
+      5.times do
+        create(:vote, answer: answer, score: 1)
+      end
+      2.times do
+        create(:vote, answer: answer, score: -1)
+      end
+      get :show, params: { id: answer.id }
+      expect(response.body).to eql(3.to_json)
+      should respond_with :ok
+    end
+  end
 
   describe 'POST #create' do
     before do

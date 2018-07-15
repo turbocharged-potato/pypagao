@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   resources :courses, only: %i[create index]
   resources :semesters, only: %i[create index]
 
-  resources :answers, only: %i[create index]
+  resources :answers, only: %i[create index show]
   resources :questions, only: %i[create index]
 
   resources :papers, only: %i[create index]

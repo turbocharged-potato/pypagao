@@ -10,10 +10,10 @@ class AnswersController < ApplicationController
     render_json(answers, :ok)
   end
 
-  # # /answers/1 - lists number of votes for an answer with answer_id
-  # def show
-  #   get_score(:answer_id)
-  # end
+  # /answers/1 - lists number of votes for an answer with answer_id
+  def show
+    render_json(get_score(params[:id]), :ok)
+  end
 
   def create
     return unless ensure_params_fields(%i[content question_id imgur])
