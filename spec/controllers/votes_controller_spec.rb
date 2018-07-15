@@ -11,8 +11,7 @@ RSpec.describe VotesController, type: :controller do
     @semester = create(:semester, course: @course)
     @paper = create(:paper, semester: @semester)
     @question = create(:question, paper: @paper)
-    sign_in(user)
-    @answer = create(:answer, question: @question)
+    @answer = create(:answer, question: @question, user: user)
   end
 
   describe 'POST #create' do
@@ -35,8 +34,7 @@ RSpec.describe VotesController, type: :controller do
       paper = create(:paper, semester: semester)
       question = create(:question, paper: paper)
       user = create(:user, university: university)
-      sign_in(user)
-      answer = create(:answer, question: question)
+      answer = create(:answer, question: question, user: user)
       sign_in(@user)
       vote = build(:vote, answer: answer)
       post :create, params: vote_hash(vote)
