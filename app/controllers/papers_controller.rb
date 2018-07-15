@@ -14,7 +14,7 @@ class PapersController < ApplicationController
   end
 
   def create
-    return unless ensure_params_fields(%[name semester_id])
+    return unless ensure_params_fields(%(name semester_id))
     paper = Paper.new paper_params
     if paper.semester.course.university == current_user.university
       try_save_paper(paper)
