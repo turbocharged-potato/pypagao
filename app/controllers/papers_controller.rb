@@ -14,9 +14,9 @@ class PapersController < ApplicationController
   end
 
   def create
-    return unless ensure_params_fields([:name])
+    return unless ensure_params_fields(%[name semester_id])
     paper = Paper.new paper_params
-    if paper_match_uni(paper)
+    if paper.semester.course.university == current_user.university
       try_save_paper(paper)
     else
       render_error('University does not match current user', :bad_request)
@@ -29,17 +29,11 @@ class PapersController < ApplicationController
     params.require(:paper).permit(:name, :semester_id)
   end
 
-  def paper_match_uni(paper)
-    semester = Semester.find_by(id: paper[:semester_id])
-    course = Course.find_by(id: semester[:course_id])
-    course.university_id == current_user.university_id
-  end
-
   def try_save_paper(paper)
     if paper.save
       render_json('', :ok)
     else
-      render_error(semester.errors.full_messages.join(', '), :bad_request)
+      render_error(paper.errors.full_messages.join(', '), :bad_request)
     end
   end
 end

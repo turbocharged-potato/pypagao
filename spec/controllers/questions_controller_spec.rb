@@ -27,14 +27,14 @@ RSpec.describe QuestionsController, type: :controller do
         .to eql([question_hash(question).with_indifferent_access])
     end
 
-    it 'should not list papers with different paper id' do
+    it 'should not list question with different paper id' do
       paper = create(:paper, semester: @semester)
       get :index, params: { paper_id: paper.id }
       should respond_with :ok
       expect(JSON.parse(response.body)).to eql([])
     end
 
-    it 'should not list courses from different university' do
+    it 'should not list questions from different university' do
       non_user_university = create(:university)
       course = create(:course, university_id: non_user_university.id)
       semester = create(:semester, course_id: course.id)
@@ -46,7 +46,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #index if signed out' do
-    it 'should not list any courses if signed out' do
+    it 'should not list any questions if signed out' do
       get :index
       should respond_with :unauthorized
     end
@@ -77,8 +77,8 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     it 'sends 400 when error saving' do
-      question = build(:question)
-      allow(Question).to receive(:create).and_return(false)
+      question = build(:question, paper: @paper)
+      allow_any_instance_of(Question).to receive(:save).and_return(false)
       post :create, params: question_hash(question)
       should respond_with :bad_request
     end

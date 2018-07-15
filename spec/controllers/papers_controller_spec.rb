@@ -65,7 +65,7 @@ RSpec.describe PapersController, type: :controller do
       university = create(:university)
       course = create(:course, university: university)
       semester = create(:semester, course: course)
-      paper = build(:paper, semester: semester)
+      paper = build(:paper, semester_id: semester.id)
       post :create, params: paper_hash(paper)
       should respond_with :bad_request
       expect(response.body)
@@ -73,8 +73,8 @@ RSpec.describe PapersController, type: :controller do
     end
 
     it 'sends 400 when error saving' do
-      paper = build(:paper)
-      allow(Paper).to receive(:create).and_return(false)
+      paper = build(:paper, semester: @semester)
+      allow_any_instance_of(Paper).to receive(:save).and_return(false)
       post :create, params: paper_hash(paper)
       should respond_with :bad_request
     end

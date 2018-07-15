@@ -30,7 +30,7 @@ RSpec.describe SemestersController, type: :controller do
       expect(JSON.parse(response.body)).to eql([])
     end
 
-    it 'should not list courses from different university' do
+    it 'should not list semesters from different university' do
       non_user_university = create(:university)
       course = create(:course, university_id: non_user_university.id)
       get :index, params: { course_id: course.id }
@@ -40,7 +40,7 @@ RSpec.describe SemestersController, type: :controller do
   end
 
   describe 'GET #index if signed out' do
-    it 'should not list any courses if signed out' do
+    it 'should not list any semesters if signed out' do
       get :index
       should respond_with :unauthorized
     end
@@ -69,8 +69,8 @@ RSpec.describe SemestersController, type: :controller do
     end
 
     it 'sends 400 when error saving' do
-      semester = build(:semester)
-      allow(Semester).to receive(:create).and_return(false)
+      semester = build(:semester, course: @course)
+      allow_any_instance_of(Semester).to receive(:save).and_return(false)
       post :create, params: semester_hash(semester)
       should respond_with :bad_request
     end

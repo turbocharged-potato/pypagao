@@ -15,13 +15,12 @@ class SemestersController < ApplicationController
   end
 
   def create
-    return unless ensure_params_fields(%i[end_year start_year number])
+    return unless ensure_params_fields(%i[end_year start_year number course_id])
     semester = Semester.new semester_params
-    if Course.find_by(id: semester[:course_id])
-             .university_id != current_user.university_id
-      render_error('University does not match current user', :bad_request)
-    else
+    if semester.course.university == current_user.university
       try_save_semester(semester)
+    else
+      render_error('University does not match current user', :bad_request)
     end
   end
 

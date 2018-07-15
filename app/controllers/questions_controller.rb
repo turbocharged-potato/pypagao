@@ -16,9 +16,9 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    return unless ensure_params_fields([:name])
+    return unless ensure_params_fields(%i[name paper_id])
     question = Question.new question_params
-    if question_match_uni(question)
+    if question.paper.semester.course.university == current_user.university
       try_save_question(question)
     else
       render_error('University does not match current user', :bad_request)
@@ -27,18 +27,11 @@ class QuestionsController < ApplicationController
 
   private
 
-  def question_match_uni(question)
-    paper = Paper.find_by(id: question[:paper_id])
-    semester = Semester.find_by(id: paper[:semester_id])
-    course = Course.find_by(id: semester[:course_id])
-    course.university_id == current_user.university_id
-  end
-
   def try_save_question(question)
     if question.save
       render_json('', :ok)
     else
-      render_error(semester.errors.full_messages.join(', '), :bad_request)
+      render_error(question.errors.full_messages.join(', '), :bad_request)
     end
   end
 
