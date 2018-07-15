@@ -6,21 +6,34 @@ class AnswersController < ApplicationController
   def index
     return unless ensure_correct_param
     answers = filter_answers
-    # limit_answers(answers, answer_limit) if params[:limit]
+    limit_answers(answers, params[:limit]) if params[:limit]
     render_json(answers, :ok)
   end
+
+  # # /answers/1 - lists number of votes for an answer with answer_id
+  # def show
+  #   get_score(:answer_id)
+  # end
+
+  def create
+    return unless ensure_params_fields(%i[content question_id imgur])
+    answer = Answer.new answer_params
+    answer.user_id = current_user.id
+    if answer_match_uni(answer)
+      try_save_answer(answer)
+    else
+      render_error('University does not match current user', :bad_request)
+    end
+  end
+
+  private
 
   def ensure_correct_param
     unless params[:user_id] || params[:question_id]
       render_error('Missing parameter', :unprocessable_entity)
-      return false
+      return
     end
     true
-  end
-
-  def limit_answers(answers, answer_limit)
-    answers.sort_by { |answer| get_score(answer[:id]) }
-           .limit(answer_limit)
   end
 
   def filter_answers
@@ -32,30 +45,43 @@ class AnswersController < ApplicationController
   end
 
   def select_answers
-    Answer.select(:id, :content, :imgur, :question_id, :user_id)
+    filter_ans_by_uni.select(:id, :content, :imgur, :question_id, :user_id)
   end
 
-  # /answers/1 - lists number of votes for an answer with answer_id
-  def show
-    get_score(select_answers.find_by(answer_id: params[:answer_id]).id)
+  def filter_ans_by_uni
+    Answer.joins(question: { paper: { semester: { course: :university } } })
+          .where(questions: { papers:
+                            { semesters:
+                            { courses:
+                            { universities:
+                            { id: current_user.university_id } } } } })
   end
 
-  def get_score(answer_id)
-    positives = Vote.where('answer_id=? and score=?', answer_id, 1).count
-    negatives = Vote.where('answer_id=? and score=?', answer_id, -1).count
-    positives - negatives
-  end
-
-  def create
-    return unless ensure_params_fields(:content)
-    if Answer.create(answer_params)
-      render_json('', :ok)
-    else
-      render_error('Error saving', :internal_server_error)
-    end
+  def limit_answers(answers, answer_limit)
+    answers.sort_by { |answer| get_score(answer[:id]) }
+           .limit(answer_limit)
   end
 
   def answer_params
-    params.require(:answer).permit(:content, :imgur)
+    params.require(:answer).permit(:content, :imgur, :question_id)
+  end
+
+  def get_score(answer_id)
+    positives = Vote.where('answer_id=? and score=?', answer_id, 1).size
+    negatives = Vote.where('answer_id=? and score=?', answer_id, -1).size
+    positives - negatives
+  end
+
+  def answer_match_uni(answer)
+    answer.question.paper.semester.course.university_id ==
+      current_user.university_id
+  end
+
+  def try_save_answer(answer)
+    if answer.save
+      render_json('', :ok)
+    else
+      render_error(answer.errors.full_messages.join(', '), :bad_request)
+    end
   end
 end
