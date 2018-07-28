@@ -65,7 +65,6 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-
   def user_hash(user)
     { id: user.id,
       name: user.name,

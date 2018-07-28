@@ -99,6 +99,6 @@ RSpec.describe PapersController, type: :controller do
   def paper_hash(paper)
     { id: paper.id,
       semester_id: paper.semester_id,
-      name: paper.name}
+      name: paper.name }
   end
 end
