@@ -39,6 +39,22 @@ RSpec.describe SemestersController, type: :controller do
     end
   end
 
+  describe 'GET #show' do
+    before do
+      sign_in(@user)
+    end
+
+    it 'should show you sem' do
+      semester = create(:semester, course: @course)
+      get :show, params: { id: semester.id }
+      ans = semester_hash(semester).slice(:id, :start_year,
+                                          :end_year, :number,
+                                          :course_id)
+      expect(response.body).to eql(ans.to_json)
+      should respond_with :ok
+    end
+  end
+
   describe 'GET #index if signed out' do
     it 'should not list any semesters if signed out' do
       get :index

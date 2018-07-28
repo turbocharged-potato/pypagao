@@ -3,6 +3,10 @@
 class AnswersController < ApplicationController
   # /answers?user_id=1 - lists all answer objects by user or question
   # /answers?question_id=1&limit=2 - limits answer objects by votes
+
+  # possible development
+  # /answers?q=make_fact - lists relevent answers
+
   def index
     return unless ensure_correct_param
     answers = filter_answers
@@ -10,9 +14,11 @@ class AnswersController < ApplicationController
     render_json(answers, :ok)
   end
 
-  # /answers/1 - lists number of votes for an answer with answer_id
+  # /answers/1 - lists number of votes for an answer with certain id
   def show
-    render_json(get_score(params[:id]), :ok)
+    answer = Answer.find_by(id: params[:id]).slice(:id, :content)
+    answer[:votes] = get_score(params[:id])
+    render_json(answer, :ok)
   end
 
   def create

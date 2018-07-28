@@ -49,6 +49,20 @@ RSpec.describe PapersController, type: :controller do
     end
   end
 
+  describe 'GET #show' do
+    before do
+      sign_in(@user)
+    end
+
+    it 'should show you paper' do
+      paper = create(:paper, semester: @semester)
+      get :show, params: { id: paper.id }
+      ans = paper_hash(paper).slice(:id, :name, :semester_id)
+      expect(response.body).to eql(ans.to_json)
+      should respond_with :ok
+    end
+  end
+
   describe 'POST #create' do
     before do
       sign_in(@user)
@@ -84,7 +98,7 @@ RSpec.describe PapersController, type: :controller do
 
   def paper_hash(paper)
     { id: paper.id,
-      name: paper.name,
-      semester_id: paper.semester_id }
+      semester_id: paper.semester_id,
+      name: paper.name}
   end
 end

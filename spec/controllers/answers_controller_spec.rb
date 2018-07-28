@@ -72,7 +72,9 @@ RSpec.describe AnswersController, type: :controller do
         create(:vote, answer: answer, score: -1)
       end
       get :show, params: { id: answer.id }
-      expect(response.body).to eql(3.to_json)
+      ans = answer_hash(answer).slice(:id, :content)
+      ans[:votes] = 3
+      expect(response.body).to eql(ans.to_json)
       should respond_with :ok
     end
   end

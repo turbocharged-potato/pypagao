@@ -13,6 +13,16 @@ class PapersController < ApplicationController
     render_json(papers, :ok)
   end
 
+  def show
+    papers_by_uni = Paper.joins(semester: { course: :university })
+                         .where(semesters: { courses:
+                                    { universities:
+                                    { id: current_user.university_id } } })
+                         .select(:id, :semester_id, :name)
+    paper = papers_by_uni.find_by(id: params[:id])
+    render_json(paper, :ok)
+  end
+
   def create
     return unless ensure_params_fields(%i[name semester_id])
     paper = Paper.new paper_params

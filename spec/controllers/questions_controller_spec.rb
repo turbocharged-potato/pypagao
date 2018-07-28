@@ -10,8 +10,7 @@ RSpec.describe QuestionsController, type: :controller do
     @course = create(:course, code: code, university: @user_university)
     @semester = create(:semester,
                        course: @course)
-    @paper = create(:paper,
-                    semester: @semester)
+    @paper = create(:paper, semester: @semester)
   end
 
   describe '#GET index' do
@@ -49,6 +48,20 @@ RSpec.describe QuestionsController, type: :controller do
     it 'should not list any questions if signed out' do
       get :index
       should respond_with :unauthorized
+    end
+  end
+
+  describe 'GET #show' do
+    before do
+      sign_in(@user)
+    end
+
+    it 'should show you paper' do
+      question = create(:question, paper: @paper)
+      get :show, params: { id: question.id }
+      ans = question_hash(question).slice(:id, :name, :paper_id)
+      expect(response.body).to eql(ans.to_json)
+      should respond_with :ok
     end
   end
 

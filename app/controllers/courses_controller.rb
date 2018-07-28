@@ -2,7 +2,9 @@
 
 class CoursesController < ApplicationController
   # /courses - lists all course objects
-  # /courses?code=CS1101S - lists all course objects by search
+  # /courses?code=CS1101S - lists course objects by search
+  # /courses/1 - lists course objects by id
+
   def index
     courses_by_university = Course
                             .select(:id, :university_id, :code)
@@ -15,6 +17,15 @@ class CoursesController < ApplicationController
               end
 
     render_json(courses, :ok)
+  end
+
+  def show
+    courses_by_university = Course
+                            .select(:id, :university_id, :code)
+                            .where(university_id: current_user.university_id)
+
+    course = courses_by_university.find_by(id: params[:id])
+    render_json(course, :ok)
   end
 
   def create

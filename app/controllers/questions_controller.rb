@@ -3,6 +3,9 @@
 class QuestionsController < ApplicationController
   # /questions?paper_id=1 - lists all question objects by paper
 
+  # possible development
+  # /questions?q=make_fact - lists relevant questions
+
   def index
     return unless ensure_params_fields([:paper_id])
     questions = Question.joins(paper: { semester: { course: :university } })
@@ -13,6 +16,17 @@ class QuestionsController < ApplicationController
                         .select(:id, :paper_id, :name)
                         .where(paper_id: params[:paper_id])
     render_json(questions, :ok)
+  end
+
+  def show
+    qs_by_uni = Question.joins(paper: { semester: { course: :university } })
+                        .where(papers: { semesters:
+                                       { courses:
+                                       { universities:
+                                       { id: current_user.university_id } } } })
+                        .select(:id, :paper_id, :name)
+    question = qs_by_uni.find_by(id: params[:id])
+    render_json(question, :ok)
   end
 
   def create

@@ -48,6 +48,21 @@ RSpec.describe CoursesController, type: :controller do
     end
   end
 
+  describe 'GET #show' do
+    before do
+      @user_university = create(:university)
+      @user = create(:user, university: @user_university)
+      sign_in(@user)
+    end
+    it 'should show you course' do
+      course = create(:course, university: @user_university)
+      get :show, params: { id: course.id }
+      ans = course_hash(course).slice(:id, :code, :university_id)
+      expect(response.body).to eql(ans.to_json)
+      should respond_with :ok
+    end
+  end
+
   describe 'POST #create' do
     before do
       @user_university = create(:university)
@@ -71,4 +86,10 @@ RSpec.describe CoursesController, type: :controller do
       should respond_with :bad_request
     end
   end
+end
+
+def course_hash(course)
+  { id: course.id,
+    code: course.code,
+    university_id: course.university_id }
 end
