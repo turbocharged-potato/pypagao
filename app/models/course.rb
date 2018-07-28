@@ -18,5 +18,5 @@
 class Course < ApplicationRecord
   belongs_to :university
   has_many :semesters, dependent: :destroy
-  validates :code, presence: true
+  validates :code, presence: true, uniqueness: { case_sensitive: false }
 end
